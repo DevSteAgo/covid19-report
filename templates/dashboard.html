@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard COVID-19</title>
+    <style>
+      .container {
+        padding: 20px;
+        text-align: center;
+      }
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 80%;
+        
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Total cases of COVID-19 in Italy, per region</h1>
+      <p>
+        Dati aggiornati al: <b style="font-size: 18px">{{ selected_date }}</b>
+      </p>
+
+      
+        <form method="get"  >
+          <label for="date">Scegli una data:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            min="2020-02-24"
+            max="{{ max_date }}"
+            value="{{ selected_date_iso }}"
+          />
+          <button type="submit">Cerca</button>
+        </form>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px; align-items: center; justify-content: center">
+          <a
+            href="/export?date={{ selected_date_iso }}"
+            style="margin-top: 20px; display: inline-block"
+            >Esporta</a
+          >
+
+          <select
+            value="{{ sort_order }}"
+            name="sort_order"
+            id="sort_order"
+            onchange="window.location.href = '?date={{ selected_date_iso }}&sort=' + this.value"
+          >
+           <option value="cases_desc" {% if sort_order == "cases_desc" %}selected{% endif %}>
+              Sort by total cases in descending order
+            </option>
+            <option value="cases_asc" {% if sort_order == "cases_asc" %}selected{% endif %}>
+              Sort by total cases in ascending order
+            </option>
+
+            <option value="reg_desc" {% if sort_order == "reg_desc" %}selected{% endif %}>Sort by region in descending order</option>
+                        <option value="reg_asc" {% if sort_order == "reg_asc" %}selected{% endif %}>Sort by region in ascending order</option>
+           
+          </select>
+        </div>
+      
+      <table style="margin-top: 5vh">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Total Cases</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in covid_data %}
+          <tr>
+            <td>{{ row['region'] }}</td>
+            <td>{{ row['total_cases'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

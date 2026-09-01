@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard COVID-19</title>
+    <style>
+      .container {
+        padding: 20px;
+        text-align: center;
+      }
+      table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 50%;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Total cases of COVID-19 in Italy, per region</h1>
+      <p>
+        Dati aggiornati al: <b style="font-size: 18px">{{ selected_date }}</b>
+      </p>
+
+      <form method="get">
+        <label for="date">Scegli una data:</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          min="2020-02-24"
+          max="{{ max_date }}"
+          value="{{ selected_date_iso }}"
+        />
+        <button type="submit">Cerca</button>
+      </form>
+      <h2 style="margin-top: 5vh">No data available for the selected date.</h2>
+    </div>
+  </body>
+</html>
