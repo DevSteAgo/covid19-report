@@ -20,13 +20,13 @@ def get_covid_data(per_region=False, filter_date=None, sort_order="cases_desc"):
         if per_region:
             query = f"SELECT r.region, SUM(cd.total_cases) as total_cases, date  FROM (covid_data cd INNER JOIN province p ON cd.province_code = p.province_code) INNER JOIN region r ON p.region_code = r.region_code {filter_clause} GROUP BY r.region"
             if sort_order == "cases_asc":
-                query += " ORDER BY total_cases ASC"
+                query += " ORDER BY total_cases ASC, r.region ASC"
             elif sort_order == "cases_desc":
-                query += " ORDER BY total_cases DESC"
+                query += " ORDER BY total_cases DESC, r.region ASC"
             elif sort_order == "reg_asc":
-                query += " ORDER BY r.region ASC"
+                query += " ORDER BY r.region ASC, total_cases DESC"
             elif sort_order == "reg_desc":
-                query += " ORDER BY r.region DESC"
+                query += " ORDER BY r.region DESC, total_cases DESC"
         else:
             query = f"SELECT * FROM covid_data {filter_clause}"
 
