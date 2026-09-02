@@ -26,7 +26,7 @@ def dashboard():
             filter_date = None
             return render_template("no_result.html", covid_data=None, selected_date=None, selected_date_iso=None, sort_order=sort_order, max_date=datetime.now().date(), message="Invalid date format. Please use YYYY-MM-DD.")
     if filter_date and filter_date < "2020-02-24":
-        return render_template("no_result.html", covid_data=None, selected_date=None, selected_date_iso=None, sort_order=sort_order, max_date=datetime.now().date(), message="No data available for the selected date. The earliest available date is 24/02/2020.")
+        return render_template("no_result.html", covid_data=None, selected_date=None, selected_date_iso=None, sort_order=sort_order, max_date=datetime.now().date(), message="No data available for the selected date. The earliest available date is 2020-02-24.")
     
     #Get covid data from db
     covid_data = get_covid_data(filter_date, sort_order)
