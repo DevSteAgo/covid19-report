@@ -55,13 +55,12 @@ descending order, with the region name as the secondary ordering key.
 
 The date filter accepts the `YYYY-MM-DD` format. Supported ordering values are:
 
-- `cases_desc`: total cases descending, region ascending as a tie-breaker;
-- `cases_asc`: total cases ascending, region ascending as a tie-breaker;
+- `cases_desc`: total cases descending;
+- `cases_asc`: total cases ascending;
 - `reg_asc`: region name ascending;
 - `reg_desc`: region name descending.
 
-The export link downloads the selected results as an Excel-compatible `.xls`
-file containing one worksheet with the columns `Region` and `Total cases`.
+The export link downloads the selected results as `.xls`
 
 
 
