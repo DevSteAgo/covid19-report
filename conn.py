@@ -7,6 +7,8 @@ def get_db_connection():
 
 
 
+
+
 def get_covid_data( filter_date=None, sort_order="cases_desc"):
     try:
         conn = get_db_connection()
@@ -42,4 +44,19 @@ def get_covid_data( filter_date=None, sort_order="cases_desc"):
     return rows
     
 
-    
+def get_last_date():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT MAX(date) as last_date FROM covid_data")
+        row = cur.fetchone()
+        if row:
+            return row["last_date"]
+        else:
+            return None
+    except sqlite3.Error as e:
+        print("Error while connecting to sqlite", e)
+        return None
+    finally:
+        if conn:
+            conn.close()

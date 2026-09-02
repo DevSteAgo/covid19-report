@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from datetime import datetime
 
 from export import export_to_xlsx
-from conn import get_covid_data
+from conn import get_covid_data, get_last_date
 
 
 
@@ -29,6 +29,8 @@ def dashboard():
     #Get covid data from db
     covid_data = get_covid_data(filter_date, sort_order)
 
+    last_date = get_last_date()
+
 
     #Get the date of the available covid data
     if covid_data:
@@ -47,7 +49,7 @@ def dashboard():
     if covid_data: 
         return render_template("dashboard.html", covid_data=covid_data, selected_date=selected_date_string, selected_date_iso=selected_date, sort_order=sort_order, max_date=datetime.now().date(), )
     else:
-        return render_template("no_result.html", selected_date=selected_date_string , selected_date_iso=selected_date, sort_order=sort_order, max_date=datetime.now().date(), message="No data available for the selected date.")
+        return render_template("no_result.html", selected_date=selected_date_string , selected_date_iso=selected_date, sort_order=sort_order, max_date=last_date, message=f"No data available for the selected date. Last available date is {last_date}.")
 
 
 
@@ -57,7 +59,16 @@ def dashboard():
 @app.route("/export")
 def export():
     selected_date = request.args.get("date")
-    covid_data = get_covid_data(selected_date)
+    sort_order = request.args.get("sort", "cases_desc")
+
+    if selected_date:
+            try:
+                datetime.strptime(selected_date, "%Y-%m-%d")
+            except (ValueError, TypeError):
+                selected_date = None
+
+    #Get covid data from db
+    covid_data = get_covid_data(selected_date, sort_order)
 
     if covid_data:
         filename = f"covid_data_{selected_date}.xls"

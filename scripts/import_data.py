@@ -5,14 +5,11 @@ import json
 
 
 def __main__():
+    con = None
 
     try:
         con = sqlite3.connect("data/db/covid-19.db")
-
-        if not con:
-            print("Error! cannot create the database connection.")
-            return False
-                
+        
         print("Connected to database successfully")
 
         cur = con.cursor()
