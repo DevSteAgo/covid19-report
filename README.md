@@ -43,6 +43,7 @@ Then open http://127.0.0.1:5000 in a browser.
 
 The startup script runs the import and starts the application:
 
+chmod +x startup.sh
 
 ./startup.sh
 
